@@ -16,7 +16,6 @@ Um jogo interativo de luta em turnos baseado no universo de Resident Evil, para 
   - Ataques normais e críticos
   - Sistema de vida com regeneração/dano
   - Chance de crítico baseada no personagem
-  - Inimigos com diferentes stats
 
 - **Inimigos:**
   - **Nemesis** - Equipado com Lança míssil (Dano: 25, Vida: 150)
