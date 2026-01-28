@@ -42,14 +42,25 @@ class Luta():
             Luta.escolher_personagem(Luta)
 
         personagem_escolhido.__dict__.update(personagens[escolha].__dict__)
-        print(personagem_escolhido)    
+        print(personagem_escolhido, '\n')  
+        inimigos = {
+            1: inimigo_escolhido,
+            2: self.mr_x
+        }
+        escolha_inimigo = int(input('''Escolha  inimigo
+    1- Nemesis
+    2-Mister X
+    \n'''))
+        if escolha_inimigo not in inimigos:
+            print('Essa escolha não existe')
+        inimigo_escolhido.__dict__.update(inimigos[escolha_inimigo].__dict__)
 
 
 
 
     #Aqui é o combate
     def luta(self):
-        print(f'Seu primeiro inimigo será o {self.nemesis.nome}')
+        print(f'Seu primeiro inimigo será o {inimigo_escolhido.nome}')
         contador = 0
 
         while True:
@@ -83,7 +94,7 @@ class Luta():
                 probabildade = random.randint(1,20)
                 if hitkill == probabildade:
                     print(f'{Cores.AZUL}PESCOÇO DO INIMIGO QUEBRADO\n{Cores.RESET}')
-                    self.nemesis.vida = 0
+                    inimigo_escolhido.vida = 0
             #Jill
             elif personagem_escolhido.nome == self.jill_valentine.nome:
                 if personagem_escolhido.vida <= 130 and personagem_escolhido.vida > 100:
@@ -105,34 +116,47 @@ class Luta():
             if critico > chance:
                 dano_critico = 0
                 dano_critico = (personagem_escolhido.dano + personagem_escolhido.dano * 1.5)
-                self.nemesis.vida = (self.nemesis.vida - dano_critico)
+                inimigo_escolhido.vida = (inimigo_escolhido.vida - dano_critico)
 
-                print(f'{Cores.VERMELHO}CRITICO🔥! Você deu {dano_critico} de dano no {self.nemesis.nome}, e ele ficou com {self.nemesis.vida} de vida{Cores.RESET}\n')
+                print(f'{Cores.VERMELHO}CRITICO🔥! Você deu {dano_critico} de dano no {inimigo_escolhido.nome}, e ele ficou com {inimigo_escolhido.vida} de vida{Cores.RESET}\n')
                 time.sleep(0.5)
-                if self.nemesis.vida <= 0:
+                if inimigo_escolhido.vida <= 0:
                     print(f'{Cores.VERDE}Você Ganhou! 👌{Cores.RESET}\n')
                     break
             else:
-                self.nemesis.vida = (self.nemesis.vida - personagem_escolhido.dano)
+                inimigo_escolhido.vida = (inimigo_escolhido.vida - personagem_escolhido.dano)
             #Aqui é o sistema de golpe normal                
-                print(f'Você atacou o {self.nemesis.nome}, e ele ficou com {self.nemesis.vida} de vida\n') if self.nemesis.vida > 50 else print(f'O inimigo ficou com apenas {self.nemesis.vida} de vida, você está quase\n')               
+                print(f'Você atacou o {inimigo_escolhido.nome}, e ele ficou com {inimigo_escolhido.vida} de vida\n') if inimigo_escolhido.vida > 50 else print(f'O inimigo ficou com apenas {inimigo_escolhido.vida} de vida, você está quase\n')               
                 time.sleep(0.5)
-                if self.nemesis.vida <= 0:
+                if inimigo_escolhido.vida <= 0:
                     print(f'{Cores.VERDE}Você Ganhou! 👌{Cores.RESET}\n')
                     break  
-            personagem_escolhido.vida = (personagem_escolhido.vida - self.nemesis.dano)
+            personagem_escolhido.vida = (personagem_escolhido.vida - inimigo_escolhido.dano)
             if personagem_escolhido.vida == 0:
                 personagem_escolhido.vida += (personagem_escolhido.vida + personagem_escolhido.vida)
             #Aqui é o ataque do inimigo    
             if personagem_escolhido.vida <= 0:
                 print(f'{Cores.VERMELHO}Você Perdeu! 😢{Cores.RESET}\n')
-                break                
-            print(f'{self.nemesis.nome} te atacou! você ficou com {personagem_escolhido.vida} de vida\n')
+                break
+                            
+            print(f'{inimigo_escolhido.nome} te atacou! você ficou com {personagem_escolhido.vida} de vida\n')
             time.sleep(0.5) 
+
+    def menu():
+        
+        input('''
+RPG Resident evil
+
+                            
+ENTER para iniciar uma nova luta
+''')
+        os.system('cls')
+        Luta.escolher_personagem(Luta)
+        Luta.luta(Luta)
 
     #Aqui são os inimigos        
     nemesis = Inimigo('Nemesis','Lança míssil', 25, 150 )
-    mr_x = Inimigo('Mister X','Soco', 10, 10 )
+    mr_x = Inimigo('Mister X','Soco', 30, 140 )
     #Aqui são os heróis
     leon_kennedy = Herois('Leon', 'Pistola',15,150, 'Desvia de ataques')
     chris_redfield = Herois('Chirs', 'Sub-metralhadora',17 ,135, 'Chance de crítico aumenta')
@@ -147,11 +171,11 @@ class Luta():
 #Veneno/Sangramento contínuo
 #Aumenta força a cada ataque(quanto menos vida)
 
-
+inimigo_escolhido = Luta('a','a',0,0,'a')
 personagem_escolhido = Luta('a','a',0,0,'a')
 #Aqui é a função main
 def main():
-    Luta.escolher_personagem(Luta)
-    Luta.luta(Luta)
+    while True:
+        Luta.menu()
 if __name__ == '__main__':
     main()  
